@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { BrandRepository } from './brand.repository';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { BrandDocument } from './schemas/brand.schema';
-import { FilterQuery, Types } from 'mongoose';
+import { FilterQuery } from 'mongoose';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 
 @Injectable()
@@ -32,19 +32,16 @@ export class BrandService {
   }
 
   async findOne(id: string) {
-    return this.brandRepository.findOne({ _id: new Types.ObjectId(id) });
+    return this.brandRepository.findOne({ _id: id });
   }
 
   async update(id: string, updateBrandDto: UpdateBrandDto) {
-    return this.brandRepository.findOneAndUpdate(
-      { _id: new Types.ObjectId(id) },
-      updateBrandDto,
-    );
+    return this.brandRepository.findOneAndUpdate({ _id: id }, updateBrandDto);
   }
 
   async remove(id: string) {
     return this.brandRepository.findOneAndDelete({
-      _id: new Types.ObjectId(id),
+      _id: id,
     });
   }
 }
