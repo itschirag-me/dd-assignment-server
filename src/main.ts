@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import helmet from 'helmet';
 import compression from 'compression';
 import { ConsoleLogger, ValidationPipe } from '@nestjs/common';
-import { Logger } from 'nestjs-pino';
 import { SwaggerModule } from '@nestjs/swagger';
 import { DocumentBuilder } from '@nestjs/swagger';
 
@@ -18,7 +17,6 @@ async function bootstrap() {
   app.enableCors();
   app.use(compression());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-  app.useLogger(app.get(Logger));
   const config = new DocumentBuilder()
     .setTitle('ASSIGNMENT')
     .setDescription('ASSIGNMENT API description')
