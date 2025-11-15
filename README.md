@@ -25,24 +25,92 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [pnpm](https://pnpm.io/) package manager
+- [MongoDB](https://www.mongodb.com/try/download/community) (local or remote instance)
+
 ## Project setup
+
+### 1. Install pnpm (if not already installed)
+
+```bash
+$ npm install -g pnpm@latest
+```
+
+### 2. Install dependencies
 
 ```bash
 $ pnpm install
 ```
 
+### 3. Environment Configuration
+
+Create a `.env` file in the root directory by copying the `.env.example` file:
+
+```bash
+$ cp .env.example .env
+```
+
+Update the `.env` file with your configuration:
+
+```env
+# Server Configuration
+PORT=3000
+
+# MongoDB Configuration
+MONGODB_URI=mongodb://localhost:27017
+MONGODB_NAME=digidart_assignment
+```
+
+**Important:** 
+- Replace `MONGODB_URI` with your MongoDB connection string (e.g., `mongodb://localhost:27017` for local MongoDB or a MongoDB Atlas connection string)
+- Replace `MONGODB_NAME` with your desired database name
+- The `PORT` is optional and defaults to `3000` if not specified
+
+### 4. Start MongoDB
+
+Make sure MongoDB is running on your system. If using a local installation:
+
+```bash
+# macOS (using Homebrew)
+$ brew services start mongodb-community
+
+# Linux
+$ sudo systemctl start mongod
+
+# Windows
+# Start MongoDB from Services or run mongod.exe
+```
+
 ## Compile and run the project
 
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
+# development mode (with auto-reload)
 $ pnpm run start:dev
+
+# production build
+$ pnpm run build
 
 # production mode
 $ pnpm run start:prod
 ```
+
+The application will be available at `http://localhost:3000` (or your configured PORT).
+
+## API Documentation
+
+Once the application is running, you can access the Swagger API documentation at:
+
+```
+http://localhost:3000/api-docs
+```
+
+The API endpoints are prefixed with `/api`. For example:
+- Health check: `GET http://localhost:3000/api`
+- Brand endpoints: `http://localhost:3000/api/brand`
 
 ## Run tests
 
@@ -55,20 +123,20 @@ $ pnpm run test:e2e
 
 # test coverage
 $ pnpm run test:cov
+
+# watch mode for tests
+$ pnpm run test:watch
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Additional Commands
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
-```
+# format code
+$ pnpm run format
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+# lint code
+$ pnpm run lint
+```
 
 ## Resources
 
