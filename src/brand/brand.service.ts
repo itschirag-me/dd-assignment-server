@@ -4,6 +4,8 @@ import { CreateBrandDto } from './dto/create-brand.dto';
 import { BrandDocument } from './schemas/brand.schema';
 import { FilterQuery } from 'mongoose';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import insightData from '../data/mock_insights.json';
+import { InsightDocument } from './schemas/insight.schema';
 
 @Injectable()
 export class BrandService {
@@ -22,9 +24,18 @@ export class BrandService {
       email: createBrandDto.email,
     });
 
+    // For mock data entry.
+    const countOfBrands = await this.brandRepository.count();
+    const MAX_BRANDS = 200;
+
+    const newBrand = {
+      ...createBrandDto,
+      insightId: (countOfBrands % MAX_BRANDS) + 1,
+    };
+
     if (brand || website || email)
       throw new BadRequestException('Brand already exists');
-    return this.brandRepository.create(createBrandDto);
+    return this.brandRepository.create(newBrand);
   }
 
   async find(filterQuery: FilterQuery<BrandDocument>) {
@@ -43,5 +54,10 @@ export class BrandService {
     return this.brandRepository.findOneAndDelete({
       _id: id,
     });
+  }
+
+  async getInsight(id: string) {
+    const brand = await this.brandRepository.findOne({ _id: id });
+    return insightData[brand.insightId] as InsightDocument;
   }
 }

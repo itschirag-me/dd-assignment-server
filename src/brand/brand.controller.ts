@@ -12,6 +12,7 @@ import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { BrandDocument } from './schemas/brand.schema';
+import { InsightResponseDto } from './dto/insight-response.dto';
 
 @Controller('brand')
 export class BrandController {
@@ -70,5 +71,16 @@ export class BrandController {
   })
   remove(@Param('id') id: string) {
     return this.brandService.remove(id);
+  }
+
+  @Get(':id/insight')
+  @ApiOperation({ summary: 'Get insight of a brand by id' })
+  @ApiResponse({
+    status: 200,
+    description: 'The insight of the brand has been successfully retrieved.',
+    type: InsightResponseDto,
+  })
+  getInsight(@Param('id') id: string) {
+    return this.brandService.getInsight(id);
   }
 }

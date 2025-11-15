@@ -57,4 +57,8 @@ export abstract class AbstractRepository<TDocument> {
     const document = await this.model.exists(filterQuery);
     return !!document;
   }
+
+  count(): Promise<number> {
+    return this.model.countDocuments();
+  }
 }
