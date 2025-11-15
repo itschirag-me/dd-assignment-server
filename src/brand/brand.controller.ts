@@ -13,7 +13,7 @@ import { UpdateBrandDto } from './dto/update-brand.dto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { BrandDocument } from './schemas/brand.schema';
 
-@Controller('brand')
+@Controller('api/brand')
 export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 

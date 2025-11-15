@@ -19,7 +19,6 @@ async function bootstrap() {
   app.use(compression());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.useLogger(app.get(Logger));
-  app.setGlobalPrefix('api');
   const config = new DocumentBuilder()
     .setTitle('ASSIGNMENT')
     .setDescription('ASSIGNMENT API description')
