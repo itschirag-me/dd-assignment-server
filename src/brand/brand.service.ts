@@ -21,29 +21,33 @@ export class BrandService {
       ],
     });
 
-    if (existingBrand && existingBrand._id) {
-      // Upsert: update existing brand but preserve insightId
-      const updateData: Partial<BrandDocument> = {
-        ...createBrandDto,
-        insightId: existingBrand.insightId, // Preserve existing insightId
-      };
-
-      return this.brandRepository.findOneAndUpdate(
-        { _id: existingBrand._id },
-        updateData,
-      );
-    }
-
-    // Create new brand
-    const countOfBrands = await this.brandRepository.count();
-    const MAX_BRANDS = 200;
-
-    const newBrand = {
+    // Prepare update data
+    const updateData: Partial<BrandDocument> = {
       ...createBrandDto,
-      insightId: (countOfBrands % MAX_BRANDS) + 1,
     };
 
-    return this.brandRepository.create(newBrand);
+    // If brand exists, preserve the insightId
+    if (existingBrand && existingBrand.insightId) {
+      updateData.insightId = existingBrand.insightId;
+    } else {
+      // For new brands, calculate insightId
+      const countOfBrands = await this.brandRepository.count();
+      const MAX_BRANDS = 200;
+      updateData.insightId = (countOfBrands % MAX_BRANDS) + 1;
+    }
+
+    // Use upsert to handle both create and update cases
+    // This prevents duplicate key errors by updating if any of name/website/email match
+    return this.brandRepository.upsert(
+      {
+        $or: [
+          { name: createBrandDto.name },
+          { website: createBrandDto.website },
+          { email: createBrandDto.email },
+        ],
+      },
+      updateData,
+    );
   }
 
   async find(filterQuery: FilterQuery<BrandDocument>) {

@@ -25,4 +25,20 @@ export class BrandRepository extends AbstractRepository<BrandDocument> {
       .lean(true);
     return (document as BrandDocument | null) || null;
   }
+
+  async upsert(
+    filterQuery: FilterQuery<BrandDocument>,
+    document: Partial<BrandDocument>,
+  ): Promise<BrandDocument> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const result = await (this as any).model
+      .findOneAndUpdate(filterQuery, document, {
+        new: true,
+        upsert: true,
+        setDefaultsOnInsert: true,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      .lean(true);
+    return result as BrandDocument;
+  }
 }
