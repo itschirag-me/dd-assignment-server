@@ -18,7 +18,11 @@ export class BrandRepository extends AbstractRepository<BrandDocument> {
   async findOneWithoutException(
     filterQuery: FilterQuery<BrandDocument>,
   ): Promise<BrandDocument | null> {
-    const document = await (this as any).model.findOne(filterQuery).lean(true);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    const document = await (this as any).model
+      .findOne(filterQuery)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      .lean(true);
     return (document as BrandDocument | null) || null;
   }
 }
