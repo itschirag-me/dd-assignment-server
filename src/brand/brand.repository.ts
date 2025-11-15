@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model, FilterQuery } from 'mongoose';
 import { BrandDocument } from './schemas/brand.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable, Logger } from '@nestjs/common';
@@ -10,8 +10,15 @@ export class BrandRepository extends AbstractRepository<BrandDocument> {
 
   constructor(
     @InjectModel(BrandDocument.name)
-    private readonly brandModel: Model<BrandDocument>,
+    brandModel: Model<BrandDocument>,
   ) {
     super(brandModel);
+  }
+
+  async findOneWithoutException(
+    filterQuery: FilterQuery<BrandDocument>,
+  ): Promise<BrandDocument | null> {
+    const document = await (this as any).model.findOne(filterQuery).lean(true);
+    return (document as BrandDocument | null) || null;
   }
 }

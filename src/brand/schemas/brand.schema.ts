@@ -14,9 +14,6 @@ export class BrandDocument {
   @Prop({ type: String, required: true, unique: true, email: true })
   email: string;
 
-  @Prop({ type: String, required: true })
-  password: string;
-
   @Prop({ type: Number, default: 1 })
   insightId: number;
 

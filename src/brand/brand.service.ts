@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { BrandRepository } from './brand.repository';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { BrandDocument } from './schemas/brand.schema';
@@ -10,44 +6,43 @@ import { FilterQuery } from 'mongoose';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import insightData from '../data/mock_insights.json';
 import { InsightDocument } from './interfaces/insight.interface';
-import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class BrandService {
   constructor(private readonly brandRepository: BrandRepository) {}
 
   async create(createBrandDto: CreateBrandDto) {
-    const brand = await this.brandRepository.exists({
-      email: createBrandDto.email,
+    // Check if brand exists by name, website, or email
+    const existingBrand = await this.brandRepository.findOneWithoutException({
+      $or: [
+        { name: createBrandDto.name },
+        { website: createBrandDto.website },
+        { email: createBrandDto.email },
+      ],
     });
 
-    const website = await this.brandRepository.exists({
-      website: createBrandDto.website,
-    });
+    if (existingBrand && existingBrand._id) {
+      // Upsert: update existing brand but preserve insightId
+      const updateData: Partial<BrandDocument> = {
+        ...createBrandDto,
+        insightId: existingBrand.insightId, // Preserve existing insightId
+      };
 
-    const email = await this.brandRepository.exists({
-      email: createBrandDto.email,
-    });
-
-    if (brand || website || email) {
-      throw new ConflictException('Brand, website or email already exists');
+      return this.brandRepository.findOneAndUpdate(
+        { _id: existingBrand._id },
+        updateData,
+      );
     }
 
-    // For mock data entry.
+    // Create new brand
     const countOfBrands = await this.brandRepository.count();
     const MAX_BRANDS = 200;
 
-    // Hash password before storing
-    const hashedPassword = await bcrypt.hash(createBrandDto.password, 10);
-
     const newBrand = {
       ...createBrandDto,
-      password: hashedPassword,
       insightId: (countOfBrands % MAX_BRANDS) + 1,
     };
 
-    if (brand || website || email)
-      throw new BadRequestException('Brand already exists');
     return this.brandRepository.create(newBrand);
   }
 
