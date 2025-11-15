@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { BrandRepository } from './brand.repository';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { BrandDocument } from './schemas/brand.schema';
@@ -24,6 +28,10 @@ export class BrandService {
     const email = await this.brandRepository.exists({
       email: createBrandDto.email,
     });
+
+    if (brand || website || email) {
+      throw new ConflictException('Brand, website or email already exists');
+    }
 
     // For mock data entry.
     const countOfBrands = await this.brandRepository.count();
