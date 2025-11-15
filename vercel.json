@@ -2,21 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/main",
+      "src": "dist/main.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/main",
-      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api/:path*"
+      "dest": "dist/main.js"
     }
   ]
 }
