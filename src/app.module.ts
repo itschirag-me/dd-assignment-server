@@ -6,7 +6,6 @@ import { BrandModule } from './brand/brand.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Env, envValidationSchema } from './app.config';
-import { LoggerModule } from './common';
 
 @Module({
   imports: [
@@ -31,7 +30,6 @@ import { LoggerModule } from './common';
       ],
     }),
     BrandModule,
-    LoggerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
