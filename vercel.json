@@ -1,16 +1,15 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
   "builds": [
     {
-      "src": "dist/serverless.js",
+      "src": "dist/main.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/serverless.js"
+      "dest": "dist/main.js"
     }
   ]
 }
