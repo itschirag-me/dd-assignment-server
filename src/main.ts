@@ -17,6 +17,7 @@ async function bootstrap() {
   app.enableCors();
   app.use(compression());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.setGlobalPrefix('api');
   const config = new DocumentBuilder()
     .setTitle('ASSIGNMENT')
     .setDescription('ASSIGNMENT API description')
@@ -24,7 +25,7 @@ async function bootstrap() {
     .addTag('ASSIGNMENT')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  SwaggerModule.setup('api-docs', app, documentFactory);
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
