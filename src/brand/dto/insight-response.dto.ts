@@ -86,4 +86,3 @@ export class InsightResponseDto {
   @ApiProperty({ type: [SeoHistoryDto] })
   seo_history: SeoHistoryDto[];
 }
-

@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { BrandModule } from './brand/brand.module';
+import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Env, envValidationSchema } from './app.config';
@@ -30,6 +31,7 @@ import { Env, envValidationSchema } from './app.config';
       ],
     }),
     BrandModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

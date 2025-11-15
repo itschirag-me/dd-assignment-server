@@ -63,6 +63,8 @@ PORT=3000
 # MongoDB Configuration
 MONGODB_URI=mongodb://localhost:27017
 MONGODB_NAME=digidart_assignment
+
+JWT_SECRET=somesecretstring
 ```
 
 **Important:** 

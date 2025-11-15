@@ -5,7 +5,8 @@ import { BrandDocument } from './schemas/brand.schema';
 import { FilterQuery } from 'mongoose';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import insightData from '../data/mock_insights.json';
-import { InsightDocument } from './schemas/insight.schema';
+import { InsightDocument } from './interfaces/insight.interface';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class BrandService {
@@ -28,8 +29,12 @@ export class BrandService {
     const countOfBrands = await this.brandRepository.count();
     const MAX_BRANDS = 200;
 
+    // Hash password before storing
+    const hashedPassword = await bcrypt.hash(createBrandDto.password, 10);
+
     const newBrand = {
       ...createBrandDto,
+      password: hashedPassword,
       insightId: (countOfBrands % MAX_BRANDS) + 1,
     };
 
