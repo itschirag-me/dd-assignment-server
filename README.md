@@ -25,6 +25,16 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## 🔗 Live Links
+
+- **Frontend**: https://flowai-chi.vercel.app/
+- **Backend**: https://api-server-sandy-six.vercel.app/
+
+## 📂 GitHub Repositories
+
+- **Frontend Repository**: https://github.com/itschirag-me/dd-assignment-client
+- **Backend Repository**: https://github.com/itschirag-me/dd-assignment-server
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
@@ -63,8 +73,6 @@ PORT=3000
 # MongoDB Configuration
 MONGODB_URI=mongodb://localhost:27017
 MONGODB_NAME=digidart_assignment
-
-JWT_SECRET=somesecretstring
 ```
 
 **Important:** 
@@ -104,7 +112,9 @@ The application will be available at `http://localhost:3000` (or your configured
 
 ## API Documentation
 
-Once the application is running, you can access the Swagger API documentation at:
+**Note:** API documentation (Swagger) is only available in local development mode, not on the deployed version.
+
+Once the application is running locally, you can access the Swagger API documentation at:
 
 ```
 http://localhost:3000/api-docs
